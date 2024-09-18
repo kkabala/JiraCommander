@@ -1,3 +1,17 @@
+# Check if JiraPS module is installed, if not, install it
+if (-not (Get-Module -ListAvailable -Name JiraPS)) {
+    Write-Host "JiraPS module not found. Installing JiraPS module..."
+    try {
+        Install-Module -Name JiraPS -Force -Scope CurrentUser
+        Write-Host "JiraPS module installed successfully."
+    } catch {
+        Write-Host "Error installing JiraPS module. Please ensure you have internet access and run this script with sufficient permissions."
+        exit 1
+    }
+} else {
+    Write-Host "JiraPS module is already installed."
+}
+
 # Check if Config.psm1 exists, if not, create it
 $ConfigPath = ".\Config.psm1"
 
