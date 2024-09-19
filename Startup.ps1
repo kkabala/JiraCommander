@@ -75,7 +75,7 @@ while ($true) {
     }
 
     # Step 2: Get a list of all .ps1 scripts in the current directory except Startup.ps1 and GenerateCredentials.ps1
-    $scripts = Get-ChildItem -Path ".\Commands" -Filter "*.ps1"
+    $scripts = Get-ChildItem -Path ".\Commands" -Filter "*.ps1" | Sort-Object Name
 
     # Step 3: Display the scripts with numbers and formatted names
     Write-Host "`nAvailable scripts:" -ForegroundColor Green
