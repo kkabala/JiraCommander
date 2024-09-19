@@ -1,10 +1,5 @@
-param (
-    [Parameter(Position = 0)]
-    [string]$ProjectPrefix = ""
-)
-# Base JQL query
 $jql = "assignee = currentUser() AND Status not in ('Done', 'Cancelled', 'Resolved', 'Completed', 'Rejected')"
-if ($ProjectPrefix -ne "") {
+if ($ProjectsToIgnore -ne "") {
     $jql += " AND PROJECT NOT IN (${ProjectsToIgnore})"
 }
 
