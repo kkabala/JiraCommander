@@ -5,11 +5,6 @@ if ($ProjectsToIgnore -ne "") {
 
 $filters = ' ORDER BY updated, created DESC'
 
-# Add project prefix filter if provided
-if ($ProjectPrefix -ne "") {
-    $jql += " AND project = '$ProjectPrefix'"
-}
-
 # Order by updated, created
 $jql += $filters
 
