@@ -51,6 +51,20 @@ The following commands are currently supported:
 - **Print my issues**: Display issues assigned to you.
 - **Show Today's Timesheet**: Show the time you've logged today across multiple issues.
 - **Tasks In Review**: List tasks currently in the "In Review" status.
+- **Summary**: Print the summary and description of a Jira ticket.
+
+### Using `jc.ps1`
+
+The `jc.ps1` script supports the 'summary' action, which prints the summary and description of a Jira ticket.
+
+To use it, run the following command in your terminal:
+
+```bash
+pwsh jc.ps1 summary <JiraTicketNumber>
+```
+
+Replace `<JiraTicketNumber>` with the actual ticket number you want to query.
+
 ---
 
 ## Contributing
