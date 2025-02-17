@@ -32,7 +32,6 @@ function Save-CredentialsFile {
     }
 }
 
-# Clean Jira markup from text
 function Clean-JiraMarkup {
     param (
         [string]$text
@@ -66,6 +65,34 @@ function Connect-Jira {
     New-JiraSession -Credential $credential | Out-Null
 }
 
+function Get-LinkedIssues {
+    param (
+        [PSObject]$issue
+    )
+    $linkedIssues = @()
+    if ($issue.IssueLinks) {
+        foreach ($link in $issue.IssueLinks) {
+            if ($link.OutwardIssue) {
+                $relationship = $link.Type.Name
+                $linkedIssues += @{
+                    Type    = $relationship
+                    Key     = $link.OutwardIssue.Key
+                    Summary = $link.OutwardIssue.Summary
+                }
+            }
+            if ($link.InwardIssue) {
+                $relationship = $link.Type.Name
+                $linkedIssues += @{
+                    Type    = $relationship
+                    Key     = $link.InwardIssue.Key
+                    Summary = $link.InwardIssue.Summary
+                }
+            }
+        }
+    }
+    return $linkedIssues
+}
+
 function Get-JiraTicketSummary {
     param (
         [string]$ticketNumber
@@ -74,6 +101,14 @@ function Get-JiraTicketSummary {
     Write-Host "Summary: $($issue.Summary)"
     $cleanDescription = Clean-JiraMarkup -text $issue.Description
     Write-Host "`nDescription:`n$cleanDescription"
+
+    $linkedIssues = Get-LinkedIssues -issue $issue
+    if ($linkedIssues.Count -gt 0) {
+        Write-Host "`nRelated Links:"
+        foreach ($link in $linkedIssues) {
+            Write-Host "- $($link.Type): $($link.Key) - $($link.Summary)"
+        }
+    }
 }
 
 Install-JiraPSModule
